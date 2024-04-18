@@ -1,10 +1,12 @@
 import { Time } from "https://js.sabae.cc/DateTime.js";
 
 export const checkTime = (time, t) => {
-  time = time.replace(/～/g, "〜");
+  time = time.replace(/[～~]/g, "〜");
   time = time.replace(/　/g, " ");
   // 17:30～ 20:30～
-  if (time.endsWith("〜")) return true;
+  if (time.endsWith("〜")) {
+    time += "0:00";
+  }
   // 11:00～22:00(L.O. 21:00)
   // 17:30〜24:00(最終入店 20:00
   const n = time.indexOf("("); // 最終入店 L.O.
