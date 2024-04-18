@@ -6,7 +6,27 @@
 <script type="module" src="https://code4fukui.github.io/csv-map/csv-map.js"></script>
 <csv-map id=csvmap src=./fukui-night_pos.csv grayscale="true"></csv-map>
 
-<label><input type="checkbox" id="chknow">今あいているところ</labeL><br>
+<label><input type="checkbox" id="chknow">
+<select id=seltime>
+  <option value=now>今</option>
+  <option value=10:00>10:00に</option>
+  <option value=11:00>11:00に</option>
+  <option value=12:00>12:00に</option>
+  <option value=13:00>13:00に</option>
+  <option value=14:00>14:00に</option>
+  <option value=15:00>15:00に</option>
+  <option value=16:00>16:00に</option>
+  <option value=17:00>17:00に</option>
+  <option value=18:00>18:00に</option>
+  <option value=19:00>19:00に</option>
+  <option value=20:00>20:00に</option>
+  <option value=21:00>21:00に</option>
+  <option value=22:00>22:00に</option>
+  <option value=23:00>23:00に</option>
+  <option value=00:00>00:00に</option>
+  <option value=01:00>01:00に</option>
+  <option value=02:00>02:00に</option>
+</select>あいているところ</labeL><br>
 
 <script type="module" src="https://code4fukui.github.io/csv-viewer/csv-viewer.js"></script>
 <csv-viewer id=csvviewer src=./fukui-night_pos.csv></csv-viewer>
@@ -71,7 +91,8 @@ import { checkTime } from "./checkTime.js";
 const data = await CSV.fetchJSON("./fukui-night_pos.csv");
 chknow.oninput = () => {
   if (chknow.checked) {
-    const now = new Time();
+    const stime = seltime.value;
+    const now = stime == "now" ? new Time() : new Time(stime);
     const data2 = data.filter(i => checkTime(i.time, now));
     console.log(data.length, data2.length)
     csvmap.value = data2;
@@ -80,6 +101,10 @@ chknow.oninput = () => {
     csvmap.value = data;
     csvviewer.value = data;
   }
+};
+seltime.oninput = () => {
+  chknow.checked = true;
+  chknow.oninput();
 };
 
 </script>
