@@ -4,10 +4,12 @@
 <h1><span id=t1>厳選 ふくいの夜マップ</span> <span id=t2>by 福井経済同友会</span></h1>
 
 <script type="module" src="https://code4fukui.github.io/csv-map/csv-map.js"></script>
-<csv-map src=./fukui-night_pos.csv grayscale="true"></csv-map>
+<csv-map id=csvmap src=./fukui-night_pos.csv grayscale="true"></csv-map>
+
+<label><input type="checkbox" id="chknow">今あいているところ</labeL><br>
 
 <script type="module" src="https://code4fukui.github.io/csv-viewer/csv-viewer.js"></script>
-<csv-viewer src=./fukui-night_pos.csv></csv-viewer>
+<csv-viewer id=csvviewer src=./fukui-night_pos.csv></csv-viewer>
 
 <style>
 body {
@@ -25,6 +27,12 @@ h1 span {
   h1 #t2 {
     font-size: 75%;
   }
+}
+label {
+  display: block;
+  text-align: center;
+  font-size: 130%;
+  margin: .5em;
 }
 csv-viewer {
 }
@@ -52,6 +60,27 @@ footer {
   margin: 0.5em;
 }
 </style>
+
+<script type="module">
+import { CSV } from "https://js.sabae.cc/CSV.js";
+import { Time } from "https://js.sabae.cc/DateTime.js";
+import { checkTime } from "./checkTime.js";
+
+const data = await CSV.fetchJSON("./fukui-night_pos.csv");
+chknow.oninput = () => {
+  if (chknow.checked) {
+    const now = new Time();
+    const data2 = data.filter(i => checkTime(i.time, now));
+    console.log(data.length, data2.length)
+    csvmap.value = data2;
+    csvviewer.value = data2;
+  } else {
+    csvmap.value = data;
+    csvviewer.value = data;
+  }
+};
+
+</script>
 
 <footer>
 <hr>
