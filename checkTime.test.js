@@ -19,18 +19,21 @@ Deno.test("different", () => {
   t.assertEquals(checkTime("19:00~2:00", new Time("18:00")), false);
 });
 Deno.test("0:00", () => {
-  t.assertEquals(checkTime("10:00〜0:00", "0:00"), true);
+  t.assertEquals(checkTime("10:00〜0:00", "23:59"), true);
+  t.assertEquals(checkTime("10:00〜0:00", "0:00"), false);
   t.assertEquals(checkTime("10:00〜0:00", "0:01"), false);
 });
 Deno.test("25:00", () => {
   t.assertEquals(checkTime("10:00〜25:00", "0:00"), true);
-  t.assertEquals(checkTime("10:00〜25:00", "1:00"), true);
-  t.assertEquals(checkTime("10:00〜25:00", "25:00"), true);
+  t.assertEquals(checkTime("10:00〜25:00", "1:00"), false);
+  t.assertEquals(checkTime("10:00〜25:00", "24:59"), true);
+  t.assertEquals(checkTime("10:00〜25:00", "25:00"), false);
   t.assertEquals(checkTime("10:00〜25:00", "25:01"), false);
 });
 Deno.test("eternal", () => { // become 00:00
   t.assertEquals(checkTime("10:00〜", "10:00"), true);
-  t.assertEquals(checkTime("10:00〜", "0:00"), true);
+  t.assertEquals(checkTime("10:00〜", "23:59"), true);
+  t.assertEquals(checkTime("10:00〜", "0:00"), false);
   t.assertEquals(checkTime("10:00〜", "1:00"), false);
   t.assertEquals(checkTime("10:00〜", "25:00"), false);
   t.assertEquals(checkTime("10:00〜", "25:01"), false);
@@ -45,7 +48,8 @@ Deno.test("multi", () => {
 Deno.test("最終入店", () => {
   t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "11:00"), true);
   t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "10:00"), false);
-  t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "21:00"), true);
+  t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "20:59"), true);
+  t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "21:00"), false);
   t.assertEquals(checkTime("11:00～22:00(L.O. 21:00)", "21:01"), false);
   t.assertEquals(checkTime("11:00～22:00(最終入店 21:00)", "21:01"), false);
 });

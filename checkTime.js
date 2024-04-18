@@ -35,10 +35,12 @@ export const checkTimeOne = (time, t) => {
   if (!end.isAfter(st)) {
     end = end.add("24:00");
   }
-  if ((t.isAfter(st) || t.equals(st)) && (t.isBefore(end) || t.equals(end)))
+  if ((t.isAfter(st) || t.equals(st)) && t.isBefore(end)) {
     return true;
+  }
   t = t.add("24:00");
-  if ((t.isAfter(st) || t.equals(st)) && (t.isBefore(end) || t.equals(end)))
+  if ((t.isAfter(st) || t.equals(st)) && t.isBefore(end)) {
     return true;
+  }
   return false;
 };
