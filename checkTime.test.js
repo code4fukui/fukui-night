@@ -8,6 +8,12 @@ Deno.test("simple", () => {
   t.assertEquals(checkTime("10:00〜20:00", "20:05"), false);
   t.assertEquals(checkTime("19:00〜2:00", "15:30:12"), false);
 });
+Deno.test("time", () => {
+  t.assertEquals(checkTime("10:00〜20:00", new Time("10:00")), true);
+  t.assertEquals(checkTime("10:00〜20:00", new Time("09:00")), false);
+  t.assertEquals(checkTime("10:00〜20:00", new Time("20:05")), false);
+  t.assertEquals(checkTime("19:00〜2:00", new Time("15:30:12")), false);
+});
 Deno.test("0:00", () => {
   t.assertEquals(checkTime("10:00〜0:00", "0:00"), true);
   t.assertEquals(checkTime("10:00〜0:00", "0:01"), false);

@@ -13,20 +13,20 @@ export const checkTime = (time, t) => {
     const l = time.indexOf(" ", n);
     const last = time.substring(l + 1, time.length - 1);
     const time2 = time.substring(0, m + 1) + last;
-    return checkTimePure(time2, t);
+    return checkTimeOne(time2, t);
   }
   // 11:00〜14:00　17:30〜22:00
   const m = time.indexOf(" ");
   if (m >= 0) {
     const time1 = time.substring(0, m);
     const time2 = time.substring(m + 1);
-    return checkTimePure(time1, t) || checkTimePure(time2, t);
+    return checkTimeOne(time1, t) || checkTimeOne(time2, t);
   }
-  return checkTimePure(time, t);
+  return checkTimeOne(time, t);
 };
 
-export const checkTimePure = (time, t) => {
-  if (!t instanceof Time) t = new Time(t);
+export const checkTimeOne = (time, t) => {
+  if (!(t instanceof Time)) t = new Time(t);
   const n = time.indexOf("〜");
   const st = new Time(time.substring(0, n));
   let end = new Time(time.substring(n + 1));
