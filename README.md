@@ -1,5 +1,7 @@
 # fukui-night
 
+> 日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
+
 Curated map of night spots in Fukui, Japan, created by the Fukui Business Society.
 
 ## Demo
