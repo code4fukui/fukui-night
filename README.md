@@ -22,4 +22,4 @@ The map and information can be accessed directly through the demo link.
 The data for this project is scraped from the [fukui-night.com](https://fukui-night.com/) website.
 
 ## License
-This project is released under the MIT License.
+MIT License — see [LICENSE](LICENSE).
